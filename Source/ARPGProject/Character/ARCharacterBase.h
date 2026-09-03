@@ -14,5 +14,8 @@ class ARPGPROJECT_API AARCharacterBase : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AARCharacterBase();
-
+	
+public:
+	void Move();
+	
 };
