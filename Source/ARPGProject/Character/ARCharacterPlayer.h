@@ -30,13 +30,16 @@ protected:
 	TObjectPtr<class UCameraComponent> CameraComponent;
 	
 protected:
-	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= Input)
 	TObjectPtr<class UInputAction> IA_Move;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= Input)
+	TObjectPtr<class UInputAction> IA_Look;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= Input)
 	TObjectPtr<class UInputMappingContext> IMC_ThirdPerson;
 	
 private:
 	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
 };

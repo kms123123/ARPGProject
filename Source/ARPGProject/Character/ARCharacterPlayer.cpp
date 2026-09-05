@@ -24,6 +24,7 @@ void AARCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
 	
 	EnhancedInputComponent->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AARCharacterPlayer::Move);
+	EnhancedInputComponent->BindAction(IA_Look, ETriggerEvent::Triggered, this, &AARCharacterPlayer::Look);
 }
 
 void AARCharacterPlayer::BeginPlay()
@@ -53,4 +54,12 @@ void AARCharacterPlayer::Move(const FInputActionValue& Value)
 	
 	AddMovementInput(ForwardDirection, MoveVector.Y);
 	AddMovementInput(RightDirection, MoveVector.X);
+}
+
+void AARCharacterPlayer::Look(const FInputActionValue& Value)
+{
+	FVector2D LookVector = Value.Get<FVector2D>();
+	
+	AddControllerYawInput(LookVector.X);
+	AddControllerPitchInput(LookVector.Y);
 }
