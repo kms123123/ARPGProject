@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ARCharacterBase.h"
+#include "InputActionValue.h"
 #include "ARCharacterPlayer.generated.h"
 
 /**
@@ -15,7 +16,18 @@ class ARPGPROJECT_API AARCharacterPlayer : public AARCharacterBase
 	GENERATED_BODY()
 	
 public:
+	AARCharacterPlayer();
+	
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	
+	virtual void BeginPlay() override;
+	
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess= true))
+	TObjectPtr<class USpringArmComponent> SpringArmComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess= true))
+	TObjectPtr<class UCameraComponent> CameraComponent;
 	
 protected:
 	
@@ -24,4 +36,7 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= Input)
 	TObjectPtr<class UInputMappingContext> IMC_ThirdPerson;
+	
+private:
+	void Move(const FInputActionValue& Value);
 };
