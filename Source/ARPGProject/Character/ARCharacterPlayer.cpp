@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 AARCharacterPlayer::AARCharacterPlayer()
@@ -15,6 +16,8 @@ AARCharacterPlayer::AARCharacterPlayer()
 	
 	SpringArmComponent->SetupAttachment(RootComponent);
 	CameraComponent->SetupAttachment(SpringArmComponent);
+	
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void AARCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -25,6 +28,8 @@ void AARCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	
 	EnhancedInputComponent->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AARCharacterPlayer::Move);
 	EnhancedInputComponent->BindAction(IA_Look, ETriggerEvent::Triggered, this, &AARCharacterPlayer::Look);
+	EnhancedInputComponent->BindAction(IA_Run, ETriggerEvent::Triggered, this, &AARCharacterPlayer::ChangeWalkRunMode, true);
+	EnhancedInputComponent->BindAction(IA_Run, ETriggerEvent::Completed, this, &AARCharacterPlayer::ChangeWalkRunMode, false);
 }
 
 void AARCharacterPlayer::BeginPlay()
@@ -62,4 +67,9 @@ void AARCharacterPlayer::Look(const FInputActionValue& Value)
 	
 	AddControllerYawInput(LookVector.X);
 	AddControllerPitchInput(LookVector.Y);
+}
+
+void AARCharacterPlayer::ChangeWalkRunMode(const FInputActionValue& Value, bool bIsRun)
+{
+	GetCharacterMovement()->MaxWalkSpeed = bIsRun ? RunSpeed : WalkSpeed;
 }

@@ -37,9 +37,21 @@ protected:
 	TObjectPtr<class UInputAction> IA_Look;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= Input)
+	TObjectPtr<class UInputAction> IA_Run;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= Input)
 	TObjectPtr<class UInputMappingContext> IMC_ThirdPerson;
 	
 private:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	void ChangeWalkRunMode(const FInputActionValue& Value, bool bIsRun);
+	
+private:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Move, meta=(AllowPrivateAccess=true))
+	float WalkSpeed = 300.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Move, meta=(AllowPrivateAccess=true))
+	float RunSpeed = 500.f;
 };
